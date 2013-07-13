@@ -12,7 +12,7 @@ import javax.swing.Timer;
 
 /**
  *
- * @author sajjad
+ * @author sajjadg
  */
 public class FButton extends JButton {
 
@@ -38,21 +38,16 @@ public class FButton extends JButton {
         super(text, icon);
         setOpaque(false);
         setFocusPainted(false);
-
-//        this.addActionListener(new ActionPerformed());
         this.addMouseListener(new MouseOver());
-
         new Runnable() {
             @Override
             public void run() {
-
                 alphaChanger = new Timer(fadingSpeed, new ActionListener() {
                     private float incrementer = -.03f;
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         float newAlpha = alpha + incrementer;
-
                         if (newAlpha < minAlpha) {
                             newAlpha = minAlpha;
                             incrementer = -incrementer;
@@ -64,7 +59,6 @@ public class FButton extends JButton {
                         repaint();
                     }
                 });
-
                 alphaChanger.start();
             }
         }.run();
@@ -106,18 +100,18 @@ public class FButton extends JButton {
         rectangularLAF = lafDeterminer.isOpaque();
     }
 
-    public class ActionPerformed implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (alphaChanger.isRunning()) {
-                alphaChanger.stop();
-            } else {
-                alphaChanger.start();
-            }
-        }
-    }
-
+    //TODO make a FButton type that fade-in-out for n sec after it gets clicked
+//    public class ActionPerformed implements ActionListener {
+//
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            if (alphaChanger.isRunning()) {
+//                alphaChanger.stop();
+//            } else {
+//                alphaChanger.start();
+//            }
+//        }
+//    }
     public class MouseOver implements MouseListener {
 
         @Override
