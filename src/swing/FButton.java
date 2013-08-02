@@ -12,7 +12,7 @@ import javax.swing.Timer;
 
 /**
  *
- * @author sajjadg
+ * @author sajjad
  */
 public class FButton extends JButton {
 
@@ -24,30 +24,44 @@ public class FButton extends JButton {
     private float maxAlpha = 1f;
     private Timer alphaChanger;
     private int fadingSpeed = 30;
+    private volatile boolean fading = false;
 
-    FButton(String text, int fadingSpeed) {
-        this(text, null);
-        this.fadingSpeed = fadingSpeed;
+    public FButton() {
+        this(null);
     }
 
     FButton(String text) {
-        this(text, null);
+        this(text, 30);
     }
 
-    FButton(String text, Icon icon) {
+    FButton(String text, int fadingSpeed) {
+        this(text, fadingSpeed, null);
+    }
+
+    FButton(String text, int fadingSpeed, Icon icon) {
         super(text, icon);
+        this.fadingSpeed = fadingSpeed;
         setOpaque(false);
         setFocusPainted(false);
-        this.addMouseListener(new MouseOver());
+        this.addActionListener(new FButton.ActionPerformed());
+//        this.addMouseListener(new MouseOver());
+        initFading();
+    }
+
+    public void initFading() {
         new Runnable() {
             @Override
             public void run() {
+
+//                while (fading) {
+
                 alphaChanger = new Timer(fadingSpeed, new ActionListener() {
                     private float incrementer = -.03f;
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         float newAlpha = alpha + incrementer;
+
                         if (newAlpha < minAlpha) {
                             newAlpha = minAlpha;
                             incrementer = -incrementer;
@@ -59,10 +73,22 @@ public class FButton extends JButton {
                         repaint();
                     }
                 });
-                alphaChanger.start();
-            }
-        }.run();
 
+//                alphaChanger.start();
+            }
+//            }
+        }.run();
+    }
+
+    public void stopFading() {
+        fading = false;
+        alpha = maxAlpha;
+        alphaChanger.stop();
+    }
+
+    public void startFading() {
+        fading = true;
+        alphaChanger.start();
     }
 
     public float getAlpha() {
@@ -100,18 +126,18 @@ public class FButton extends JButton {
         rectangularLAF = lafDeterminer.isOpaque();
     }
 
-    //TODO make a FButton type that fade-in-out for n sec after it gets clicked
-//    public class ActionPerformed implements ActionListener {
-//
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            if (alphaChanger.isRunning()) {
-//                alphaChanger.stop();
-//            } else {
-//                alphaChanger.start();
-//            }
-//        }
-//    }
+    public class ActionPerformed implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (fading) {
+                stopFading();
+            } else {
+                startFading();
+            }
+        }
+    }
+
     public class MouseOver implements MouseListener {
 
         @Override
