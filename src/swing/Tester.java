@@ -1,5 +1,6 @@
 package swing;
 
+import swing.utils.FButton;
 import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;

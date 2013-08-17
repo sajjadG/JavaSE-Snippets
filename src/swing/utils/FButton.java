@@ -1,4 +1,4 @@
-package swing;
+package swing.utils;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
