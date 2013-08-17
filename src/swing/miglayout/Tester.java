@@ -16,7 +16,8 @@ public class Tester {
     public void createAndShowGUI() {
 
         frame = new JFrame();
-        frame.add(new MiglayoutDesign1());
+//        frame.add(new MiglayoutDesign1());
+        frame.add(new MiglayoutDesign2());
         //frame.setContentPane(new MigLayoutTest());
 
         frame.setSize(1000, 600);
